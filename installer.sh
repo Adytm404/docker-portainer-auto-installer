@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Auto Installer Docker + Portainer
-# Tested on Ubuntu 20.04+
+# Auto Installer Docker + Portainer CE (versi ringan)
+# Cocok untuk Ubuntu 20.04+ atau Debian-based
 
 set -e
 
-echo "🚀 Memulai instalasi Docker dan Portainer..."
+echo "🚀 Memulai instalasi Docker dan Portainer CE..."
 
 # Update dan install dependensi
 sudo apt update && sudo apt install -y \
@@ -37,14 +37,15 @@ sudo systemctl start docker
 # Tambahkan user ke grup docker (opsional)
 sudo usermod -aG docker $USER
 
-# Jalankan Portainer menggunakan Docker
+# Buat volume dan jalankan Portainer CE
 docker volume create portainer_data
+
 docker run -d -p 8000:8000 -p 9443:9443 \
   --name portainer \
   --restart=always \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v portainer_data:/data \
-  portainer/portainer-ce:latest
+  portainer/portainer-ce:lts
 
 echo "✅ Instalasi selesai!"
 echo "🔗 Akses Portainer di https://localhost:9443"
